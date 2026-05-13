@@ -1,0 +1,12 @@
+# Claude Code internal files
+.claude/
+
+# Playwright MCP artifacts
+.playwright-mcp/
+
+# Temporary UI dump files
+ui_dump*.xml
+
+# OS generated files
+.DS_Store
+Thumbs.db
