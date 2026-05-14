@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
-
 import '../data/mock_repository.dart';
 import '../models/models.dart';
 import '../theme/app_colors.dart';
@@ -22,7 +20,7 @@ class NotificationsScreen extends StatelessWidget {
     final unreadCount = notifications.where((notification) => !notification.isRead).length;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+
       appBar: const AppTopBar(),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(
@@ -171,11 +169,11 @@ class NotificationsScreen extends StatelessWidget {
   IconData _iconFor(NotificationSeverity severity) {
     switch (severity) {
       case NotificationSeverity.critical:
-        return Symbols.warning;
+        return Icons.warning_rounded;
       case NotificationSeverity.warning:
-        return Symbols.notifications_active;
+        return Icons.notifications_active;
       case NotificationSeverity.info:
-        return Symbols.info;
+        return Icons.info;
     }
   }
 

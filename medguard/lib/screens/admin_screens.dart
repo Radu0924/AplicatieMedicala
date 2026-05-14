@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 
 import '../data/mock_repository.dart';
 import '../theme/app_colors.dart';
@@ -17,7 +16,7 @@ class AdminDevicesScreen extends StatelessWidget {
     final device = MockRepository.sampleDevice;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+
       appBar: AppBar(
         title: const Text('Administrare Dispozitive'),
         backgroundColor: AppColors.surface,
@@ -92,7 +91,7 @@ class AdminTransportersScreen extends StatelessWidget {
     final transporter = MockRepository.sampleTransporter;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+
       appBar: AppBar(
         title: const Text('Administrare Transportori'),
         backgroundColor: AppColors.surface,
@@ -154,7 +153,7 @@ class AdminTransportsScreen extends StatelessWidget {
     final pastTransports = MockRepository.instance.getPastTransports();
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+
       appBar: AppBar(
         title: const Text('Administrare Transporuri'),
         backgroundColor: AppColors.surface,
@@ -226,7 +225,7 @@ class AdminAlarmsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+
       appBar: AppBar(
         title: const Text('Administrare Alarme'),
         backgroundColor: AppColors.surface,
@@ -238,7 +237,7 @@ class AdminAlarmsScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Symbols.check_circle,
+              Icon(Icons.check_circle,
                   color: AppColors.statusOk, size: 48, fill: 1),
               const SizedBox(height: AppSpacing.lg),
               Text(
@@ -267,7 +266,7 @@ class AdminReportsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+
       appBar: AppBar(
         title: const Text('Rapoarte Conformitate'),
         backgroundColor: AppColors.surface,
@@ -309,7 +308,7 @@ class _AdminSettingsScreenState extends State<AdminSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+
       appBar: AppBar(
         title: const Text('Setări Administrație'),
         backgroundColor: AppColors.surface,
@@ -464,7 +463,7 @@ class _ReportCard extends StatelessWidget {
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: () {},
-                  icon: const Icon(Symbols.download),
+                  icon: const Icon(Icons.download),
                   label: const Text('Descărcare'),
                 ),
               ),
@@ -472,7 +471,7 @@ class _ReportCard extends StatelessWidget {
               Expanded(
                 child: FilledButton.icon(
                   onPressed: () {},
-                  icon: const Icon(Symbols.print),
+                  icon: const Icon(Icons.print),
                   label: const Text('Tipărire'),
                 ),
               ),

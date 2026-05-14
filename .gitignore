@@ -7,6 +7,15 @@
 # Temporary UI dump files
 ui_dump*.xml
 
+# Flutter/Android run logs
+medguard/*.log
+medguard/android/*.log
+
+# Screenshots and test artifacts
+screenshots/
+Screenshot *.png
+TEST_REPORT_*.md
+
 # OS generated files
 .DS_Store
 Thumbs.db

@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
-
-import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_typography.dart';
+import '../theme/theme_notifier.dart';
 
-/// Sticky app bar with the MedGuard wordmark + medical_services icon.
-/// Automatically shows a back button when there is a route to pop.
 class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
   const AppTopBar({super.key, this.actions});
 
@@ -19,10 +15,12 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final canPop = context.canPop();
+    final cs = Theme.of(context).colorScheme;
+
     return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        border: Border(bottom: BorderSide(color: AppColors.borderSubtle)),
+      decoration: BoxDecoration(
+        color: cs.surface,
+        border: Border(bottom: BorderSide(color: cs.outlineVariant)),
       ),
       child: SafeArea(
         bottom: false,
@@ -31,27 +29,24 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
           child: Padding(
             padding: EdgeInsets.only(
               left: canPop ? AppSpacing.xs : AppSpacing.containerMargin,
-              right: AppSpacing.containerMargin,
+              right: AppSpacing.sm,
             ),
             child: Row(
               children: [
                 if (canPop)
                   IconButton(
                     icon: const Icon(Icons.arrow_back_ios_new, size: 18),
-                    color: AppColors.onSurface,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.sm,
-                    ),
+                    color: cs.onSurface,
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
                     constraints: const BoxConstraints(),
                     onPressed: () => context.pop(),
                     tooltip: 'Înapoi',
                   )
                 else ...[
-                  const Icon(
-                    Symbols.medical_services,
-                    color: AppColors.primary,
-                    size: 24,
-                    fill: 1,
+                  Icon(
+                    Icons.medical_services,
+                    color: cs.onSurface,
+                    size: 22,
                   ),
                   const SizedBox(width: AppSpacing.sm),
                 ],
@@ -61,6 +56,25 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 const Spacer(),
                 if (actions != null) ...actions!,
+                // Dark mode toggle
+                ValueListenableBuilder<ThemeMode>(
+                  valueListenable: themeNotifier,
+                  builder: (_, mode, __) => IconButton(
+                    icon: Icon(
+                      mode == ThemeMode.dark
+                          ? Icons.light_mode_outlined
+                          : Icons.dark_mode_outlined,
+                      size: 22,
+                    ),
+                    color: cs.onSurface,
+                    tooltip: mode == ThemeMode.dark ? 'Mod luminos' : 'Mod întunecat',
+                    onPressed: () {
+                      themeNotifier.value = mode == ThemeMode.dark
+                          ? ThemeMode.light
+                          : ThemeMode.dark;
+                    },
+                  ),
+                ),
               ],
             ),
           ),

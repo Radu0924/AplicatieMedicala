@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
-
 import '../data/mock_repository.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
@@ -19,7 +17,7 @@ class HistoryScreen extends StatelessWidget {
     final pastTransports = MockRepository.instance.getPastTransports();
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+
       appBar: const AppTopBar(),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(
@@ -105,7 +103,7 @@ class HistoryScreen extends StatelessWidget {
                         Row(
                           children: [
                             Icon(
-                              Symbols.schedule,
+                              Icons.schedule,
                               size: 16,
                               color: AppColors.textDimmed,
                             ),

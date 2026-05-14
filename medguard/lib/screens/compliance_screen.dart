@@ -19,7 +19,7 @@ class ComplianceScreen extends StatelessWidget {
     final metrics = repo.metrics;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+
       appBar: AppBar(
         title: const Text('Conformitate PoC'),
         backgroundColor: AppColors.surface,

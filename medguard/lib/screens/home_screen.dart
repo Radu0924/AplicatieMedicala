@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
-
 import '../data/mock_repository.dart';
 import '../models/models.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_gradients.dart';
+import '../theme/app_shadows.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_typography.dart';
 import '../widgets/app_top_bar.dart';
@@ -33,7 +34,7 @@ class _HomeScreenContent extends StatelessWidget {
     final repo = MockRepository.instance;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+
       appBar: const AppTopBar(),
       body: StreamBuilder<TelemetrySnapshot>(
         stream: repo.telemetryStream,
@@ -42,39 +43,41 @@ class _HomeScreenContent extends StatelessWidget {
           final telemetry = snapshot.data!;
           final metrics = repo.metrics;
 
-          return ListView(
+          final sections = <Widget>[
+            _BatteryWarningBanner(batteryPercent: telemetry.batteryPercent),
+            GestureDetector(
+              onTap: () => context.push('/detail'),
+              child: _PrimaryStatusCard(
+                device: MockRepository.sampleDevice,
+                telemetry: telemetry,
+              ),
+            ),
+            _TelemetryGrid(telemetry: telemetry),
+            _ComplianceOverviewCard(
+              overview: repo.complianceOverview,
+              metrics: metrics,
+            ),
+            _SystemHealthCard(
+              telemetry: telemetry,
+              metrics: metrics,
+            ),
+            _SourceCard(metrics: metrics),
+          ];
+
+          return ListView.separated(
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.containerMargin,
               AppSpacing.sectionPadding,
               AppSpacing.containerMargin,
               AppSpacing.xl,
             ),
-            children: [
-              _BatteryWarningBanner(batteryPercent: telemetry.batteryPercent),
-              GestureDetector(
-                onTap: () => context.push('/detail'),
-                child: _PrimaryStatusCard(
-                  device: MockRepository.sampleDevice,
-                  telemetry: telemetry,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.xl + 4),
-              _TelemetryGrid(telemetry: telemetry),
-              const SizedBox(height: AppSpacing.xl + 4),
-              _ComplianceOverviewCard(
-                overview: repo.complianceOverview,
-                metrics: metrics,
-              ),
-              const SizedBox(height: AppSpacing.xl + 4),
-              _SystemHealthCard(
-                telemetry: telemetry,
-                metrics: metrics,
-              ),
-              const SizedBox(height: AppSpacing.xl + 4),
-              _SourceCard(metrics: metrics),
-              const SizedBox(height: AppSpacing.xl + 4),
-              const _ComplianceButton(),
-            ],
+            itemCount: sections.length,
+            separatorBuilder: (_, _) =>
+                const SizedBox(height: AppSpacing.xl + 4),
+            itemBuilder: (_, i) => _FadeSlideIn(
+              delay: Duration(milliseconds: 60 * i),
+              child: sections[i],
+            ),
           );
         },
       ),
@@ -139,7 +142,7 @@ class _BatteryWarningBanner extends StatelessWidget {
                 child: Row(
                   children: [
                     _PulsingIcon(
-                      icon: Symbols.battery_alert,
+                      icon: Icons.battery_alert,
                       color: color,
                       size: 22,
                     ),
@@ -295,7 +298,8 @@ class _PrimaryStatusCard extends StatelessWidget {
         status == DeviceStatus.critical || status == DeviceStatus.warning;
 
     return InfoCard(
-      background: AppColors.surfaceMuted,
+      gradient: AppGradients.primaryStatus,
+      boxShadow: AppShadows.raised,
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.lg,
         AppSpacing.lg,
@@ -311,14 +315,14 @@ class _PrimaryStatusCard extends StatelessWidget {
                 label: telemetry.online ? 'ONLINE' : 'OFFLINE',
                 color:
                     telemetry.online ? AppColors.statusOk : AppColors.textDimmed,
-                icon: Symbols.sensors,
+                icon: Icons.sensors,
               ),
               StatusBadge(
                 label: telemetry.doorOpen ? 'USA DESCHISA' : 'USA INCHISA',
                 color: telemetry.doorOpen
                     ? AppColors.statusWarning
                     : AppColors.textDimmed,
-                icon: telemetry.doorOpen ? Symbols.door_open : Symbols.door_back,
+                icon: telemetry.doorOpen ? Icons.meeting_room : Icons.sensor_door,
               ),
             ],
           ),
@@ -403,7 +407,7 @@ class _TelemetryGrid extends StatelessWidget {
       ),
       _TelemetryTileData(
         label: 'BATERIE',
-        icon: batteryLow ? Symbols.battery_alert : Symbols.battery_charging_full,
+        icon: batteryLow ? Icons.battery_alert : Icons.battery_charging_full,
         iconColor: batteryLow ? AppColors.statusCritical : AppColors.statusOk,
         background: AppColors.tint(
           batteryLow ? AppColors.statusCritical : AppColors.statusOk,
@@ -414,14 +418,14 @@ class _TelemetryGrid extends StatelessWidget {
       ),
       _TelemetryTileData(
         label: 'UMIDITATE',
-        icon: Symbols.humidity_mid,
+        icon: Icons.water_drop,
         iconColor: AppColors.secondary,
         background: AppColors.tint(AppColors.secondary, 0.10),
         value: '${telemetry.humidityPercent}%',
       ),
       _TelemetryTileData(
         label: 'TENSIUNE',
-        icon: Symbols.electrical_services,
+        icon: Icons.electrical_services,
         iconColor: AppColors.statusWarning,
         background: AppColors.tint(AppColors.statusWarning, 0.10),
         value: '${telemetry.voltage.toStringAsFixed(1)}V',
@@ -623,7 +627,7 @@ class _ComplianceOverviewCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Symbols.rule, size: 18, color: AppColors.textDimmed),
+              Icon(Icons.rule, size: 18, color: AppColors.textDimmed),
               const SizedBox(width: AppSpacing.xs),
               Text(
                 'CONFORMITATE POC',
@@ -657,17 +661,17 @@ class _ComplianceOverviewCard extends StatelessWidget {
               StatusBadge(
                 label: '${overview.compliant} CONFORME',
                 color: AppColors.statusOk,
-                icon: Symbols.check_circle,
+                icon: Icons.check_circle,
               ),
               StatusBadge(
                 label: '${overview.violations} INCALCARI',
                 color: AppColors.statusCritical,
-                icon: Symbols.warning,
+                icon: Icons.warning,
               ),
               StatusBadge(
                 label: '${overview.insufficientData} INSUF.',
                 color: AppColors.statusWarning,
-                icon: Symbols.info,
+                icon: Icons.info,
               ),
             ],
           ),
@@ -707,7 +711,7 @@ class _SystemHealthCard extends StatelessWidget {
           child: Column(
             children: [
               _HealthRow(
-                icon: Symbols.sync,
+                icon: Icons.sync,
                 label: 'Gap maxim intre evenimente',
                 trailing: StatusBadge(
                   label: '${metrics.rawEventGapMaxSeconds}s',
@@ -715,13 +719,13 @@ class _SystemHealthCard extends StatelessWidget {
                       ? AppColors.statusOk
                       : AppColors.statusCritical,
                   icon: metrics.rawEventGapMaxSeconds <= 90
-                      ? Symbols.check
-                      : Symbols.error,
+                      ? Icons.check
+                      : Icons.error,
                 ),
               ),
               const Divider(),
               _HealthRow(
-                icon: Symbols.thermostat,
+                icon: Icons.thermostat,
                 label: 'Gap maxim intre citiri temperatura',
                 trailing: StatusBadge(
                   label: '${metrics.temperatureGapMaxSeconds}s',
@@ -729,13 +733,13 @@ class _SystemHealthCard extends StatelessWidget {
                       ? AppColors.statusOk
                       : AppColors.statusCritical,
                   icon: metrics.temperatureGapMaxSeconds <= 30
-                      ? Symbols.check
-                      : Symbols.warning,
+                      ? Icons.check
+                      : Icons.warning,
                 ),
               ),
               const Divider(),
               _HealthRow(
-                icon: Symbols.sensors,
+                icon: Icons.sensors,
                 label: 'Timeout-uri senzor secundar',
                 trailing: StatusBadge(
                   label: '${metrics.secondarySensorTimeoutCount}',
@@ -743,13 +747,13 @@ class _SystemHealthCard extends StatelessWidget {
                       ? AppColors.statusOk
                       : AppColors.statusWarning,
                   icon: metrics.secondarySensorTimeoutCount == 0
-                      ? Symbols.check
-                      : Symbols.sensors,
+                      ? Icons.check
+                      : Icons.sensors,
                 ),
               ),
               const Divider(),
               _HealthRow(
-                icon: Symbols.door_open,
+                icon: Icons.meeting_room,
                 label: 'Maxim deschideri usa / ora',
                 trailing: StatusBadge(
                   label: '${metrics.maxDoorOpensPerHour}',
@@ -757,8 +761,8 @@ class _SystemHealthCard extends StatelessWidget {
                       ? AppColors.statusCritical
                       : AppColors.statusOk,
                   icon: metrics.maxDoorOpensPerHour > 10
-                      ? Symbols.warning
-                      : Symbols.check,
+                      ? Icons.warning
+                      : Icons.check,
                 ),
               ),
               if (telemetry.recentEvents.isNotEmpty) ...[
@@ -829,23 +833,23 @@ class _EventRow extends StatelessWidget {
   IconData get _icon {
     switch (event.icon) {
       case 'power':
-        return Symbols.power;
+        return Icons.power_settings_new;
       case 'ac_unit':
-        return Symbols.ac_unit;
+        return Icons.ac_unit;
       case 'door_open':
-        return Symbols.door_open;
+        return Icons.meeting_room;
       case 'door_back':
-        return Symbols.door_back;
+        return Icons.sensor_door;
       case 'thermostat':
-        return Symbols.thermostat;
+        return Icons.thermostat;
       case 'alarm':
-        return Symbols.alarm;
+        return Icons.alarm;
       case 'sync_problem':
-        return Symbols.sync_problem;
+        return Icons.sync_problem;
       case 'sensors':
-        return Symbols.sensors;
+        return Icons.sensors;
       default:
-        return Symbols.bolt;
+        return Icons.bolt;
     }
   }
 
@@ -893,8 +897,8 @@ class _SourceCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(
-                Symbols.description,
+              Icon(
+                Icons.description,
                 size: 18,
                 color: AppColors.textDimmed,
               ),
@@ -946,18 +950,54 @@ class _SourceCard extends StatelessWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Compliance button
+// Entrance animation — fade + slide up, staggered by [delay].
 // ---------------------------------------------------------------------------
 
-class _ComplianceButton extends StatelessWidget {
-  const _ComplianceButton();
+class _FadeSlideIn extends StatefulWidget {
+  const _FadeSlideIn({required this.child, this.delay = Duration.zero});
+
+  final Widget child;
+  final Duration delay;
+
+  @override
+  State<_FadeSlideIn> createState() => _FadeSlideInState();
+}
+
+class _FadeSlideInState extends State<_FadeSlideIn>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _ctrl;
+  late final Animation<double> _opacity;
+  late final Animation<Offset> _slide;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 380),
+    );
+    _opacity = CurvedAnimation(parent: _ctrl, curve: Curves.easeOut);
+    _slide = Tween<Offset>(
+      begin: const Offset(0, 0.08),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeOut));
+
+    Future.delayed(widget.delay, () {
+      if (mounted) _ctrl.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton.icon(
-      onPressed: () => context.push('/compliance'),
-      icon: const Icon(Symbols.rule, size: 20),
-      label: const Text('Vezi raportul de conformitate'),
+    return FadeTransition(
+      opacity: _opacity,
+      child: SlideTransition(position: _slide, child: widget.child),
     );
   }
 }

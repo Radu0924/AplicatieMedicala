@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
-
 import '../data/mock_repository.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
@@ -20,7 +18,7 @@ class ProfileScreen extends StatelessWidget {
     final metrics = repo.metrics;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+
       appBar: const AppTopBar(),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(
@@ -42,10 +40,9 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   child: Icon(
-                    Symbols.dataset,
+                    Icons.analytics,
                     size: 40,
                     color: AppColors.onPrimaryContainer,
-                    fill: 1,
                   ),
                 ),
                 const SizedBox(height: AppSpacing.lg),
@@ -91,7 +88,7 @@ class ProfileScreen extends StatelessWidget {
                 SizedBox(height: AppSpacing.md),
                 _InfoRow(
                   label: 'AI / backend',
-                  value: 'Neutilizat in acest PoC',
+                  value: 'Dezactivat în PoC',
                 ),
               ],
             ),
@@ -116,35 +113,29 @@ class ProfileScreen extends StatelessWidget {
               _MetricTile(
                 label: 'Evenimente',
                 value: '${metrics.totalLines}',
-                icon: Symbols.numbers,
+                icon: Icons.format_list_numbered,
               ),
               _MetricTile(
                 label: 'Citiri temp',
                 value: '${metrics.tempReadingCount}',
-                icon: Symbols.thermostat,
+                icon: Icons.thermostat,
               ),
               _MetricTile(
                 label: 'Temp max',
-                value: '${metrics.maxTemperature.toStringAsFixed(1)}C',
-                icon: Symbols.device_thermostat,
+                value: '${metrics.maxTemperature.toStringAsFixed(1)}°C',
+                icon: Icons.device_thermostat,
               ),
               _MetricTile(
                 label: 'Baterie min',
                 value: '${metrics.minBattery.toStringAsFixed(1)}%',
-                icon: Symbols.battery_low,
+                icon: Icons.battery_alert,
               ),
             ],
           ),
           const SizedBox(height: AppSpacing.xl + 4),
-          FilledButton.icon(
-            onPressed: () => context.push('/compliance'),
-            icon: const Icon(Symbols.rule),
-            label: const Text('Vezi verificarea de conformitate'),
-          ),
-          const SizedBox(height: AppSpacing.md),
           OutlinedButton.icon(
             onPressed: () => context.go('/login'),
-            icon: const Icon(Symbols.logout),
+            icon: const Icon(Icons.logout),
             label: const Text('Inapoi la ecranul initial'),
           ),
         ],

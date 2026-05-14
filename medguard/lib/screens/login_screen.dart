@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
+
 
 import '../theme/app_colors.dart';
+import '../theme/app_shadows.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_typography.dart';
 import '../widgets/info_card.dart';
@@ -46,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(
@@ -63,20 +64,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: AppSpacing.xxl),
                 InfoCard(
                   background: AppColors.surfaceContainerLow,
+                  boxShadow: AppShadows.raised,
                   padding: const EdgeInsets.all(AppSpacing.xl),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       _LabeledField(
-                        label: 'Email / Telefon',
+                        label: 'Nume utilizator',
                         child: TextFormField(
                           controller: _identifier,
-                          keyboardType: TextInputType.emailAddress,
+                          keyboardType: TextInputType.text,
                           autocorrect: false,
                           textInputAction: TextInputAction.next,
                           decoration: const InputDecoration(
-                            hintText: 'Introduceți email sau telefon',
-                            prefixIcon: Icon(Symbols.person, size: 22),
+                            hintText: 'Introduceți numele de utilizator',
+                            prefixIcon: Icon(Icons.account_circle, size: 22),
                           ),
                           validator: (v) =>
                               (v == null || v.trim().isEmpty)
@@ -94,12 +96,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           onFieldSubmitted: (_) => _submit(),
                           decoration: InputDecoration(
                             hintText: 'Introduceți parola',
-                            prefixIcon: const Icon(Symbols.lock, size: 22),
+                            prefixIcon: const Icon(Icons.lock, size: 22),
                             suffixIcon: IconButton(
                               icon: Icon(
                                 _passwordVisible
-                                    ? Symbols.visibility_off
-                                    : Symbols.visibility,
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                                 size: 22,
                               ),
                               onPressed: () => setState(
@@ -143,6 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       PrimaryButton(
                         label: _submitting ? 'Se procesează...' : 'Intră în cont',
                         onPressed: _submitting ? null : _submit,
+                        loading: _submitting,
                       ),
                     ],
                   ),
@@ -151,8 +154,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(
-                      Symbols.verified_user,
+                    Icon(
+                      Icons.verified_user,
                       size: 18,
                       color: AppColors.textDimmed,
                     ),
@@ -183,16 +186,29 @@ class _Header extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Symbols.medical_services,
-              size: 32,
-              color: AppColors.primary,
-              fill: 1,
+            Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(AppRadius.xl),
+                boxShadow: AppShadows.primary(),
+              ),
+              alignment: Alignment.center,
+              child: Icon(
+                Icons.medical_services,
+                size: 30,
+                color: AppColors.onPrimary,
+              ),
             ),
-            const SizedBox(width: AppSpacing.sm),
+            const SizedBox(width: AppSpacing.md),
             Text(
               'MedGuard',
-              style: AppTypography.headlineLg.copyWith(fontSize: 28),
+              style: AppTypography.headlineLg.copyWith(
+                fontSize: 30,
+                fontWeight: FontWeight.w800,
+                letterSpacing: -0.3,
+              ),
             ),
           ],
         ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
 
 import '../data/mock_repository.dart';
 import '../models/models.dart';
@@ -20,7 +19,7 @@ class AdminDashboardScreen extends StatelessWidget {
     final isWebLayout = MediaQuery.of(context).size.width > 600;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+
       appBar: AppBar(
         title: Text(
           'MedGuard Admin',
@@ -34,7 +33,7 @@ class AdminDashboardScreen extends StatelessWidget {
             child: Center(
               child: FilledButton.icon(
                 onPressed: () => context.go('/login'),
-                icon: const Icon(Symbols.logout),
+                icon: const Icon(Icons.logout),
                 label: const Text('Deconectare'),
               ),
             ),
@@ -72,7 +71,7 @@ class _WebLayout extends StatelessWidget {
               child: _StatCard(
                 label: 'Dispozitive Active',
                 value: '1',
-                icon: Symbols.thermostat,
+                icon: Icons.thermostat,
                 color: AppColors.statusOk,
               ),
             ),
@@ -81,7 +80,7 @@ class _WebLayout extends StatelessWidget {
               child: _StatCard(
                 label: 'Transporte Activ',
                 value: '1',
-                icon: Symbols.local_shipping,
+                icon: Icons.local_shipping,
                 color: AppColors.primary,
               ),
             ),
@@ -90,7 +89,7 @@ class _WebLayout extends StatelessWidget {
               child: _StatCard(
                 label: 'Alerte Nerezolvate',
                 value: '0',
-                icon: Symbols.warning,
+                icon: Icons.warning,
                 color: AppColors.statusCritical,
               ),
             ),
@@ -99,7 +98,7 @@ class _WebLayout extends StatelessWidget {
               child: _StatCard(
                 label: 'Transporturi Completate',
                 value: '${pastTransports.length}',
-                icon: Symbols.check_circle,
+                icon: Icons.check_circle,
                 color: AppColors.statusOk,
               ),
             ),
@@ -126,32 +125,32 @@ class _WebLayout extends StatelessWidget {
           crossAxisSpacing: AppSpacing.lg,
           children: [
             _AdminMenuTile(
-              icon: Symbols.devices,
+              icon: Icons.devices,
               label: 'Dispozitive',
               onTap: () => context.go('/admin-devices'),
             ),
             _AdminMenuTile(
-              icon: Symbols.people,
+              icon: Icons.people,
               label: 'Transportori',
               onTap: () => context.go('/admin-transporters'),
             ),
             _AdminMenuTile(
-              icon: Symbols.directions_bus,
+              icon: Icons.directions_bus,
               label: 'Transporuri',
               onTap: () => context.go('/admin-transports'),
             ),
             _AdminMenuTile(
-              icon: Symbols.error,
+              icon: Icons.error,
               label: 'Alarme',
               onTap: () => context.go('/admin-alarms'),
             ),
             _AdminMenuTile(
-              icon: Symbols.description,
+              icon: Icons.description,
               label: 'Rapoarte',
               onTap: () => context.go('/admin-reports'),
             ),
             _AdminMenuTile(
-              icon: Symbols.settings,
+              icon: Icons.settings,
               label: 'Setări',
               onTap: () => context.go('/admin-settings'),
             ),
@@ -191,21 +190,21 @@ class _MobileLayout extends StatelessWidget {
         _StatCard(
           label: 'Dispozitive Active',
           value: '1',
-          icon: Symbols.thermostat,
+          icon: Icons.thermostat,
           color: AppColors.statusOk,
         ),
         const SizedBox(height: AppSpacing.lg),
         _StatCard(
           label: 'Transporte Activ',
           value: '1',
-          icon: Symbols.local_shipping,
+          icon: Icons.local_shipping,
           color: AppColors.primary,
         ),
         const SizedBox(height: AppSpacing.lg),
         _StatCard(
           label: 'Alerte Nerezolvate',
           value: '0',
-          icon: Symbols.warning,
+          icon: Icons.warning,
           color: AppColors.statusCritical,
         ),
         const SizedBox(height: AppSpacing.xl + 4),

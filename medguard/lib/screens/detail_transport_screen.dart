@@ -3,8 +3,6 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
-
 import '../data/mock_repository.dart';
 import '../models/models.dart';
 import '../theme/app_colors.dart';
@@ -22,7 +20,7 @@ class DetailTransportScreen extends StatelessWidget {
     final repo = MockRepository.instance;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+
       appBar: const AppTopBar(),
       body: StreamBuilder<TelemetrySnapshot>(
         stream: repo.telemetryStream,
@@ -57,7 +55,7 @@ class DetailTransportScreen extends StatelessWidget {
               const SizedBox(height: AppSpacing.xl + 4),
               FilledButton.icon(
                 onPressed: () => context.push('/compliance'),
-                icon: const Icon(Symbols.rule),
+                icon: const Icon(Icons.rule),
                 label: const Text('Deschide raportul de conformitate'),
                 style: FilledButton.styleFrom(
                   backgroundColor: AppColors.secondary,
@@ -67,7 +65,7 @@ class DetailTransportScreen extends StatelessWidget {
               const SizedBox(height: AppSpacing.md),
               OutlinedButton.icon(
                 onPressed: () => context.push('/report-issue'),
-                icon: const Icon(Symbols.report_problem),
+                icon: const Icon(Icons.report_problem),
                 label: const Text('Raportează o problemă'),
                 style: OutlinedButton.styleFrom(
                   minimumSize: const Size.fromHeight(AppSpacing.touchTarget),
@@ -114,16 +112,16 @@ class _SessionHeader extends StatelessWidget {
           runSpacing: AppSpacing.sm,
           children: [
             _HeaderPill(
-              icon: Symbols.schedule,
+              icon: Icons.schedule,
               label: _formatRange(metrics.firstTimestamp, metrics.lastTimestamp),
             ),
             _HeaderPill(
-              icon: Symbols.dataset,
+              icon: Icons.tag,
               label: '${metrics.totalLines} evenimente',
             ),
             _HeaderPill(
-              icon: Symbols.thermostat,
-              label: '${telemetry.temperatureC.toStringAsFixed(1)}C acum',
+              icon: Icons.thermostat,
+              label: '${telemetry.temperatureC.toStringAsFixed(1)}°C acum',
             ),
           ],
         ),
@@ -246,7 +244,7 @@ class _TemperatureChart extends StatelessWidget {
                         final mm = tickTime.minute.toString().padLeft(2, '0');
                         return Text(
                           '$hh:$mm',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 10,
                             color: AppColors.textDimmed,
                           ),
@@ -261,8 +259,8 @@ class _TemperatureChart extends StatelessWidget {
                       reservedSize: 40,
                       getTitlesWidget: (value, meta) {
                         return Text(
-                          '${value.toInt()}C',
-                          style: const TextStyle(
+                          '${value.toInt()}°C',
+                          style: TextStyle(
                             fontSize: 10,
                             color: AppColors.textDimmed,
                           ),
@@ -350,7 +348,7 @@ class _DetailStatusGrid extends StatelessWidget {
       children: [
         _StatusGridTile(
           label: 'BATERIE',
-          icon: Symbols.battery_charging_full,
+          icon: Icons.battery_charging_full,
           iconColor: AppColors.statusOk,
           value: '${telemetry.batteryPercent}%',
           tone: telemetry.batteryPercent > 20
@@ -359,7 +357,7 @@ class _DetailStatusGrid extends StatelessWidget {
         ),
         _StatusGridTile(
           label: 'SENZOR SEC.',
-          icon: Symbols.sensors,
+          icon: Icons.sensors,
           iconColor: telemetry.sensorSecondaryActive
               ? AppColors.statusOk
               : AppColors.statusWarning,
@@ -370,18 +368,18 @@ class _DetailStatusGrid extends StatelessWidget {
         ),
         _StatusGridTile(
           label: 'ALARME LOG',
-          icon: Symbols.alarm,
+          icon: Icons.alarm,
           iconColor: AppColors.statusCritical,
           value: '${metrics.alarmTriggeredCount}',
           tone: AppColors.statusCritical,
         ),
         _StatusGridTile(
           label: 'MAX TEMP',
-          icon: Symbols.thermostat,
+          icon: Icons.thermostat,
           iconColor: metrics.maxTemperature > MockRepository.sampleDevice.tempMaxOk
               ? AppColors.statusCritical
               : AppColors.statusOk,
-          value: '${metrics.maxTemperature.toStringAsFixed(1)}C',
+          value: '${metrics.maxTemperature.toStringAsFixed(1)}°C',
           tone: metrics.maxTemperature > MockRepository.sampleDevice.tempMaxOk
               ? AppColors.statusCritical
               : AppColors.statusOk,
@@ -510,23 +508,23 @@ class _RecentEventsCard extends StatelessWidget {
   IconData _iconFor(String iconName) {
     switch (iconName) {
       case 'power':
-        return Symbols.power;
+        return Icons.power_settings_new;
       case 'ac_unit':
-        return Symbols.ac_unit;
+        return Icons.ac_unit;
       case 'door_open':
-        return Symbols.door_open;
+        return Icons.meeting_room;
       case 'door_back':
-        return Symbols.door_back;
+        return Icons.sensor_door;
       case 'thermostat':
-        return Symbols.thermostat;
+        return Icons.thermostat;
       case 'alarm':
-        return Symbols.alarm;
+        return Icons.alarm;
       case 'sync_problem':
-        return Symbols.sync_problem;
+        return Icons.sync_problem;
       case 'sensors':
-        return Symbols.sensors;
+        return Icons.sensors;
       default:
-        return Symbols.info;
+        return Icons.info;
     }
   }
 

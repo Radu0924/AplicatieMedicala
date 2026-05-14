@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
-
 import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_typography.dart';
@@ -23,11 +21,11 @@ extension DeviceStatusUi on DeviceStatus {
   IconData get icon {
     switch (this) {
       case DeviceStatus.ok:
-        return Symbols.check_circle;
+        return Icons.check_circle;
       case DeviceStatus.warning:
-        return Symbols.warning;
+        return Icons.warning;
       case DeviceStatus.critical:
-        return Symbols.error;
+        return Icons.error;
     }
   }
 

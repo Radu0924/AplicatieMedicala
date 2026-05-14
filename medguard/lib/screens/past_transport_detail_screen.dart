@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
-
 import '../data/mock_repository.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
@@ -30,7 +28,7 @@ class PastTransportDetailScreen extends StatelessWidget {
     final duration = transport.endedAt!.difference(transport.startedAt);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+
       appBar: const AppTopBar(),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(
@@ -93,22 +91,22 @@ class PastTransportDetailScreen extends StatelessWidget {
               _SummaryTile(
                 label: 'START',
                 value: _formatDateTime(metrics.firstTimestamp),
-                icon: Symbols.login,
+                icon: Icons.play_circle,
               ),
               _SummaryTile(
                 label: 'FINAL',
                 value: _formatDateTime(metrics.lastTimestamp),
-                icon: Symbols.logout,
+                icon: Icons.flag,
               ),
               _SummaryTile(
                 label: 'EVENIMENTE',
                 value: '${metrics.totalLines}',
-                icon: Symbols.numbers,
+                icon: Icons.format_list_numbered,
               ),
               _SummaryTile(
                 label: 'CITIRI PESTE LIMITA',
                 value: '${metrics.overLimitTemperatureCount}',
-                icon: Symbols.warning,
+                icon: Icons.warning,
               ),
             ],
           ),
@@ -202,7 +200,7 @@ class _NotesSection extends StatelessWidget {
               Row(
                 children: [
                   Icon(
-                    violations == 0 ? Symbols.check_circle : Symbols.warning,
+                    violations == 0 ? Icons.check_circle : Icons.warning,
                     color: violations == 0
                         ? AppColors.statusOk
                         : AppColors.statusCritical,

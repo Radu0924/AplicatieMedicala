@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/symbols.dart';
-
 import '../data/mock_repository.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
@@ -61,7 +59,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Stack(
           children: [
@@ -101,22 +98,21 @@ class _BrandMark extends StatelessWidget {
         Container(
           width: 96,
           height: 96,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: AppColors.primary,
             shape: BoxShape.circle,
           ),
-          child: const Icon(
-            Symbols.medical_services,
+          child: Icon(
+            Icons.medical_services,
             color: AppColors.onPrimary,
             size: 48,
-            fill: 1,
           ),
         ),
         const SizedBox(height: AppSpacing.xl),
         Text('MedGuard', style: AppTypography.headlineLg),
         const SizedBox(height: AppSpacing.md),
         Text(
-          'Secure Medical Logistics',
+          'Monitorizare Medicală Sigură',
           style: AppTypography.bodyMd.copyWith(color: AppColors.onSurfaceVariant),
         ),
       ],
@@ -135,7 +131,7 @@ class _LoadingIndicator extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (loading)
-          const SizedBox(
+          SizedBox(
             width: 32,
             height: 32,
             child: CircularProgressIndicator(
@@ -146,14 +142,13 @@ class _LoadingIndicator extends StatelessWidget {
           )
         else
           const Icon(
-            Symbols.check_circle,
+            Icons.check_circle,
             color: AppColors.statusOk,
             size: 32,
-            fill: 1,
           ),
         const SizedBox(height: AppSpacing.lg),
         Text(
-          loading ? 'INCARCARE LOG POC...' : 'LOG POC INCARCAT',
+          loading ? 'ÎNCĂRCARE LOG POC...' : 'LOG POC ÎNCĂRCAT',
           style: AppTypography.labelSm.copyWith(
             color: AppColors.outline,
             letterSpacing: 2.0,
@@ -179,10 +174,9 @@ class _ErrorState extends StatelessWidget {
     return Column(
       children: [
         const Icon(
-          Symbols.error,
+          Icons.error,
           color: AppColors.statusCritical,
           size: 32,
-          fill: 1,
         ),
         const SizedBox(height: AppSpacing.md),
         Text(

@@ -42,12 +42,14 @@ class _GlobalAlertHandlerState extends State<GlobalAlertHandler> {
           return Stack(
             children: [
               widget.child,
-              AlertScreen(
-                alert: currentAlert,
-                telemetry: telemetry,
-                onDismiss: () {
-                  repo.acknowledgeAlert(currentAlert);
-                },
+              Positioned.fill(
+                child: AlertScreen(
+                  alert: currentAlert,
+                  telemetry: telemetry,
+                  onDismiss: () {
+                    repo.acknowledgeAlert(currentAlert);
+                  },
+                ),
               ),
             ],
           );
